@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>User-Info</title>
+</head>
+<body>
+	<div align="center">
+    <h1 style="font-family:cursive;">User-Info</h1>
+    <form id="data-form">
+   <br>
+        <label><b>Name : </b></label>
+        <input type="text" id="name" required><br><br>
+
+        <label><b>Phone No : </b></label>
+        <input type="number" id="phone" required><br><br>
+
+        <label><b>Email : </b></label>
+        <input type="email" id="email" required><br><br>
+
+        <label ><b>Native : </b></label>
+        <input type="text" id="native" required><br><br>
+
+        <input type="submit" value="Submit">
+        <br>
+        <br>
+        <br>
+        <br>
+    </form>
+<hr>
+<br>
+    <h1 style="font-family:cursive;">Database</h1>
+    <table id="data-table" border="1" cellpadding="20px" cellspacing="5px" width="60%">
+        <tr>
+            <th>Name</th>
+            <th>Phone No</th>
+            <th>Email</th>
+            <th>Native</th>
+            <th style="font-family:algerian;">Options</th> 
+        </tr>
+    </table>
+
+    <script>
+        var editMode = false;
+        var rowIndexToEdit;
+
+        document.getElementById("data-form").addEventListener(
+            "submit", function (e) {
+            e.preventDefault();
+            
+            
+            var name = document.getElementById("name").value;
+            var phone = document.getElementById("phone").value;
+            var email = document.getElementById("email").value;
+            var native = document.getElementById("native").value;
+            
+            if (editMode) {
+              
+                var table = document.getElementById("data-table");
+                var row = table.rows[rowIndexToEdit];
+                row.cells[0].innerHTML = name;
+                row.cells[1].innerHTML = phone;
+                row.cells[2].innerHTML = email;
+                row.cells[3].innerHTML = native;
+
+               
+                editMode = false;
+                rowIndexToEdit = undefined;
+                document.getElementById("data-form").reset();
+            } else {
+               
+                var table = document.getElementById("data-table");
+                var newRow = table.insertRow(table.rows.length);
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                var cell3 = newRow.insertCell(2);
+                var cell4 = newRow.insertCell(3);
+                var cell5 = newRow.insertCell(4); 
+                cell1.innerHTML = name;
+                cell2.innerHTML = phone;
+                cell3.innerHTML = email;
+                cell4.innerHTML = native;
+                cell5.innerHTML = '<button onclick="editRow(this)">Update</button><br><br><button onclick="deleteRow(this)">Delete</button>'; 
+            }
+          
+            document.getElementById("name").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("native").value = "";
+        });
+
+        function editRow(button) {
+            var row = button.parentNode.parentNode;
+            rowIndexToEdit = row.rowIndex;
+            editMode = true;
+
+            document.getElementById("name").value = row.cells[0].innerHTML;
+            document.getElementById("phone").value = row.cells[1].innerHTML;
+            document.getElementById("email").value = row.cells[2].innerHTML;
+            document.getElementById("native").value = row.cells[3].innerHTML;
+        }
+        function deleteRow(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+    </script>
+    </div>
+</body>
+</html>
+
